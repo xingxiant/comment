@@ -20,6 +20,8 @@
 		<property name="suffix" value=".jsp"></property>
 	</bean>
 	
+	
+	
 	<!-- 自动扫描的包名 -->
 	<context:component-scan base-package="org.imooc.controller"/>
 </beans>
