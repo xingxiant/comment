@@ -35,7 +35,7 @@ public class AdController {
 	 */
 	@RequestMapping("/addInit")
 	public String addInit() {
-		return "/content/adAdd";
+		return "/content/adModify";
 	}
 	
 	/**
@@ -87,9 +87,13 @@ public class AdController {
 	 * 修改页面初始化
 	 */
 	@RequestMapping("/modify")
-	public String modify(AdDto adDto){
-		
-		
+	public String modify(AdDto adDto,Model model){
+		model.addAttribute("modifyObj", adDto);
+		if (adService.modify(adDto)) {
+			model.addAttribute(PageCodeEnum.KEY, PageCodeEnum.MODIFY_SUCCESS);
+		} else {
+			model.addAttribute(PageCodeEnum.KEY, PageCodeEnum.MODIFY_FAIL);
+		}
 		return "/content/adModify";
 	}
 }
