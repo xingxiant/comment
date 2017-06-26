@@ -5,24 +5,22 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 @JsonInclude(Include.NON_NULL)
 public class Business extends BaseBean {
-    
-    private Long id;
-    private String img;
-    private String title;
-    private String subtitle;
-    private Double price;
-    private Integer distance;
-    public Long getId() {
+
+	private Long id;
+	private String imgFileName;
+	private String title;
+	private String subtitle;
+	public Long getId() {
 		return id;
 	}
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public String getImg() {
-		return img;
+	public String getImgFileName() {
+		return imgFileName;
 	}
-	public void setImg(String img) {
-		this.img = img;
+	public void setImgFileName(String imgFileName) {
+		this.imgFileName = imgFileName;
 	}
 	public String getTitle() {
 		return title;
@@ -96,16 +94,17 @@ public class Business extends BaseBean {
 	public void setCategoryDic(Dic categoryDic) {
 		this.categoryDic = categoryDic;
 	}
+	private Double price;
+	private Integer distance;
 	private Integer number;
-    private String desc;
-    private String city;
-    private String category;
-    private Long starTotalNum;
-    private Long commentTotalNum;
-    
-    private Dic cityDic;
-    private Dic categoryDic;
+	private String desc;
+	private String city;          //城市编码
+	private String category;      //类别编码
+	private Long starTotalNum;
+	private Long commentTotalNum;
 
-    
-    
+	private Dic cityDic;
+	private Dic categoryDic;
+
+
 }

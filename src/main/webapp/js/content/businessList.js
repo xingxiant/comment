@@ -1,4 +1,5 @@
 function remove(id) {
+	$("#mainForm").attr("method","DELETE");
 	$("#mainForm").attr("action",$("#basePath").val() + "/businesses/" + id);
 	$("#mainForm").submit();
 }

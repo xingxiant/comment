@@ -35,6 +35,7 @@ public class AdController {
 	 */
 	@RequestMapping("/addInit")
 	public String addInit() {
+		
 		return "/content/adModify";
 	}
 	
