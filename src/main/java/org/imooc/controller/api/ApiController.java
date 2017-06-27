@@ -11,6 +11,7 @@ import org.imooc.service.AdService;
 import org.imooc.service.BusinessService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -58,8 +59,14 @@ public class ApiController {
 		result.put("errno", 0);
 		result.put("msg", "ok");
 		return result;
-
-
+	}
+	
+	/**
+	 * 详情页-商户信息
+	 */
+	@RequestMapping(value="/detail/info/{id}",method=RequestMethod.GET)
+	public BusinessDto detail(@PathVariable("id")Long id){
+		return businessService.getById(id);
 	}
 
 }
