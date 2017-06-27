@@ -1,5 +1,9 @@
+$(function() {
+	common.showMessage($("#message").val());
+});
+
 function remove(id) {
-	$("#mainForm").attr("method","DELETE");
+	$("#hiddenMethod").val("DELETE");
 	$("#mainForm").attr("action",$("#basePath").val() + "/businesses/" + id);
 	$("#mainForm").submit();
 }

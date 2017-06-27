@@ -88,7 +88,10 @@ public class AdServiceImpl implements AdService{
 		 
 	}
 	public boolean modify(AdDto adDto){
+		
+		adDto.setImgFileName(adDao.selectById(adDto.getId()).getImgFileName());
 		Ad ad=new Ad();
+		
 		BeanUtils.copyProperties(adDto, ad);
 		String fileName=null;
 		if(adDto.getImgFile()!=null&&adDto.getImgFile().getSize()>0){

@@ -85,7 +85,7 @@ public class AdController {
 		return "/content/adModify";
 	}
 	/**
-	 * 修改页面初始化
+	 * 修改页面
 	 */
 	@RequestMapping("/modify")
 	public String modify(AdDto adDto,Model model){

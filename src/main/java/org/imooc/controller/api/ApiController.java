@@ -41,7 +41,6 @@ public class ApiController {
 		adDto.getPage().setPageNumber(adNumber);
 		List<AdDto> ad=adService.searchByPage(adDto);
 		return ad;
-
 	}
 	
 	/**
@@ -53,6 +52,22 @@ public class ApiController {
 		return businessService.searchByPageForApi(businessDto);
 	}
 
+	/**
+	 * 搜索结果页 - 搜索结果 - 三个参数
+	 */
+	@RequestMapping(value = "/search/{page.currentPage}/{city}/{category}/{keyword}", method = RequestMethod.GET)
+	public BusinessListDto searchByKeyword(BusinessDto businessDto) {
+		businessDto.getPage().setPageNumber(businessSearchNumber);
+		return businessService.searchByPageForApi(businessDto);
+	}
+	/**
+	 * 搜索结果页 - 搜索结果 - 两个参数
+	 */
+	@RequestMapping(value ="/search/{page.currentPage}/{city}/{category}", method = RequestMethod.GET)
+	public BusinessListDto search(BusinessDto businessDto) {
+		businessDto.getPage().setPageNumber(businessSearchNumber);
+		return businessService.searchByPageForApi(businessDto);
+	}
 	@RequestMapping(value="/submitComment",method=RequestMethod.POST)
 	public Map<String,Object> submitComment() {
 		Map<String,Object> result=new HashMap<String,Object>();
