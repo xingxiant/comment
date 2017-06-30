@@ -85,6 +85,8 @@
 		                        <div class="ileft" id="menuDiv">
 		                        	<h3 onclick="$('#mainPage').attr('src','${basePath}/ad/search');"><a>广告管理</a></h3>
 		                        	<h3 onclick="$('#mainPage').attr('src','${basePath}/businesses');"><a>商户管理</a></h3>
+		                        	<h3 onclick="$('#mainPage').attr('src','${basePath}/orders');"><a>订单查询</a></h3>
+		                        	<h3 onclick="$('#mainPage').attr('src','${basePath}/comments');"><a>评论查询</a></h3>
 		                        </div>
 		                    </div>
 		                </td>
