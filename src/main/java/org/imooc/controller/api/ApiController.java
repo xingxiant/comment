@@ -1,18 +1,20 @@
 package org.imooc.controller.api;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
+import org.imooc.bean.Page;
 import org.imooc.constant.ApiCodeEnum;
 import org.imooc.dto.AdDto;
 import org.imooc.dto.ApiCodeDto;
 import org.imooc.dto.BusinessDto;
 import org.imooc.dto.BusinessListDto;
+import org.imooc.dto.CommentForSubmitDto;
+import org.imooc.dto.CommentListDto;
 import org.imooc.dto.OrderForBuyDto;
 import org.imooc.dto.OrdersDto;
 import org.imooc.service.AdService;
 import org.imooc.service.BusinessService;
+import org.imooc.service.CommentService;
 import org.imooc.service.MemberService;
 import org.imooc.service.OrdersService;
 import org.imooc.util.CommonUtil;
@@ -36,10 +38,12 @@ public class ApiController {
 	private MemberService memberService;
 	@Autowired
 	private OrdersService ordersService;
+	@Autowired
+	private CommentService commentService;
 
 	@Value("${ad.number}")
 	private int adNumber;
-	
+
 	@Value("${businessHome.number}")
 	private int businessHomeNumber;
 
@@ -54,7 +58,7 @@ public class ApiController {
 		List<AdDto> ad=adService.searchByPage(adDto);
 		return ad;
 	}
-	
+
 	/**
 	 * 首页-推荐列表（猜你喜欢）
 	 */
@@ -80,14 +84,8 @@ public class ApiController {
 		businessDto.getPage().setPageNumber(businessSearchNumber);
 		return businessService.searchByPageForApi(businessDto);
 	}
-	@RequestMapping(value="/submitComment",method=RequestMethod.POST)
-	public Map<String,Object> submitComment() {
-		Map<String,Object> result=new HashMap<String,Object>();
-		result.put("errno", 0);
-		result.put("msg", "ok");
-		return result;
-	}
 	
+
 	/**
 	 * 详情页-商户信息
 	 */
@@ -95,7 +93,7 @@ public class ApiController {
 	public BusinessDto detail(@PathVariable("id")Long id){
 		return businessService.getById(id);
 	}
-	
+
 	/**
 	 * 根据手机号下发短信验证码
 	 */
@@ -148,7 +146,7 @@ public class ApiController {
 		}
 		return dto;
 	}
-	
+
 	/**
 	 * 买单
 	 */
@@ -174,7 +172,7 @@ public class ApiController {
 		}
 		return dto;
 	}
-	
+
 	/**
 	 * 订单列表
 	 */
@@ -184,5 +182,40 @@ public class ApiController {
 		Long memberId = memberService.getIdByPhone(username);
 		return ordersService.getListByMemberId(memberId);
 	}
+	/**
+	 * 提交评论
+	 */
+	@RequestMapping(value = "/submitComment", method = RequestMethod.POST)
+	public ApiCodeDto submitComment(CommentForSubmitDto dto) {
+		ApiCodeDto result;
+		// TODO 需要完成的步骤：
+		// 1、校验登录信息：token、手机号
+		Long phone = memberService.getPhone(dto.getToken());
+		if (phone != null && phone.equals(dto.getUsername())) {
+			// 2、根据手机号取出会员ID
+			Long memberId = memberService.getIdByPhone(phone);
+			// 3、根据提交上来的订单ID获取对应的会员ID，校验与当前登录的会员是否一致
+			OrdersDto ordersDto = ordersService.getById(dto.getId());
+			if(ordersDto.getMemberId().equals(memberId)) {
+				// 4、保存评论
+				commentService.add(dto);
+				result = new ApiCodeDto(ApiCodeEnum.SUCCESS);
+				// TODO
+				// 5、还有一件重要的事未做 ----商户的星星数量自动同步
 
+			} else {
+				result = new ApiCodeDto(ApiCodeEnum.NO_AUTH);
+			}
+		} else {
+			result = new ApiCodeDto(ApiCodeEnum.NOT_LOGGED);
+		}
+		return result;
+	}
+	/**
+	 * 详情页 - 用户评论
+	 */
+	@RequestMapping(value = "/detail/comment/{currentPage}/{businessId}", method = RequestMethod.GET)
+	public CommentListDto detail(@PathVariable("businessId") Long businessId,Page page) {
+		return commentService.getListByBusinessId(businessId,page);
+	}
 }
